@@ -1,27 +1,56 @@
-var app = app || {}; 
+var app = app || {};
 
 
 app.Animation = (function () {
 
-	var title;
-	var caption;
+    var tl1 = new TimelineMax(),
+        atlas,
+        txt1,
+        rating,
+        cta_txt,
+        cta_arrow,
+        curtain,
+        buttonExit,
+        buttonLegal,
+        legal;
 
 	// --------------------------------------------------------------------------------------
 	// set default properties
 	function initialize() {
-		title = document.getElementById('title');
-		caption = document.getElementById('caption');
+        rating = document.getElementById('rating');
+        txt1 = document.getElementById('txt1');
+        atlas = document.getElementById('atlas');
+        cta_txt = document.getElementById('cta_txt');
+        cta_arrow = document.getElementById('cta_arrow');
+        curtain = document.getElementById('curtain');
+        buttonExit = document.getElementById('button-exit');
+        buttonLegal = document.getElementById('button-legal');
+        legal = document.getElementById('legal');
 
-		TweenLite.set(title, {scale:0});
-		TweenLite.set(caption, {scale:0});
+        buttonExit.addEventListener('mouseover', function () {
+            TweenMax.to(cta_arrow, .25, {x: 5});
+            TweenMax.to(cta_arrow, .25, {x: 0, delay: .25});
+        });
+
+        buttonLegal.addEventListener('mouseover', function () {
+            TweenMax.to(legal, .25, {opacity: 1});
+        });
+
+        buttonLegal.addEventListener('mouseout', function () {
+            TweenMax.to(legal, .25, {opacity: 0});
+        });
 	}
 
 	// --------------------------------------------------------------------------------------
 	// Starts the animation
 	function start() {
-		TweenLite.to(title, 1, {scale:1, ease:Cubic.easeInOut});
-		TweenLite.to(caption, 1, {scale:1, ease:Cubic.easeInOut});
-	} 
+        tl1.to(curtain, .5, {opacity: 0})
+            .from(atlas, .5, {x:"+=20", y:"-=5", scale:.9, ease: Sine.easeOut}, "-=.5")
+            .to(txt1, .5, {opacity: 1})
+            .to(rating, .5, {opacity: 1})
+            .to(cta_txt, .5, {opacity: 1})
+            .to(cta_arrow, .5, {opacity: 1}, "-=.5");
+	}
 
 	// --------------------------------------------------------------------------------------
 	// Stops the animation
@@ -33,7 +62,7 @@ app.Animation = (function () {
 	// Publicly accessible methods and properties
 	return {
 		initialize:initialize,
-		start:start, 
+		start:start,
 		stop:stop
 	}
 
